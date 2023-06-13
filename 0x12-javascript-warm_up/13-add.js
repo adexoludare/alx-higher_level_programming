@@ -1,5 +1,2 @@
 #!/usr/bin/node
-function add(num1,num2){
-    return num1 + num2
-}
-console.log(add(2,6))
+exports.add = (a, b) => a + b;
