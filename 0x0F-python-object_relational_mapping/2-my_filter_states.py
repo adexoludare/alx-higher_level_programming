@@ -1,24 +1,26 @@
 #!/usr/bin/python3
 """
-Displays all values in the states table of the database hbtn_0e_0_usa
-whose name matches that supplied as argument.
-Usage: ./2-my_filter_states.py <mysql username> \
-                                <mysql password> \
-                                <database name> \
-                                <state name searched>
+takes in an argument and displays
+all values in the states table
 """
-import sys
-import MySQLdb
 
-if __name__ == "__main__":
-    db = MySQLdb.connect(user=sys.argv[1], port=3306, host="localhost",
-                         passwd=sys.argv[2], db=sys.argv[3])
-    c = db.cursor()
-    c.execute("SELECT * FROM states WHERE name LIKE '{:s}' ORDER BY \
-    id ASC".format(sys.argv[4]))
-    states = c.fetchall()
-    for state in states:
-        if state[1] == sys.argv[4]:
-            print(state)
-    c.close()
-    db.close()
+import MySQLdb
+from sys import argv
+
+if __name__ == '__main__':
+    """
+    Access to the database and get the states
+    from the database.
+    """
+
+    conn = MySQLdb.connect(host="localhost", user=argv[1], port=3306,
+                           passwd=argv[2], db=argv[3])
+
+    curr = conn.cursor()
+    curr.execute("SELECT * FROM states \
+                 WHERE name LIKE BINARY '{}' \
+                 ORDER BY states.id ASC".format(argv[4]))
+    rows = curr.fetchall()
+
+    for row in rows:
+        print(row)
